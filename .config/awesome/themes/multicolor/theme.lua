@@ -11,13 +11,13 @@ local gears = require("gears")
 local lain  = require("lain")
 local awful = require("awful")
 local wibox = require("wibox")
-local os    = { getenv = os.getenv, setlocale = os.setlocale }
+local os    = { getenv = os.getenv, setlocale = os.setlocale, execute = os.execute }
 
 local theme                                     = {}
 theme.confdir                                   = os.getenv("HOME") .. "/.config/awesome/themes/multicolor"
 theme.wallpaper                                 = theme.confdir .. "/wall.png"
 --theme.font                                      = "xos4 Terminus 8"
-theme.font                                      = "inconsolata 12"
+theme.font                                      = "inconsolata 11"
 theme.menu_bg_normal                            = "#000000"
 theme.menu_bg_focus                             = "#000000"
 theme.bg_normal                                 = "#000000"
@@ -97,7 +97,7 @@ local markup = lain.util.markup
 -- Textclock
 os.setlocale(os.getenv("LANG")) -- to localize the clock
 local clockicon = wibox.widget.imagebox(theme.widget_clock)
-local mytextclock = wibox.widget.textclock(markup("#7788af", "%A %d %B ") .. markup("#535f7a", ">") .. markup("#de5e1e", " %H:%M "))
+local mytextclock = wibox.widget.textclock(markup("#7788af", "%a %d") .. markup("#de5e1e", " %H:%M "))
 mytextclock.font = theme.font
 
 -- Calendar
@@ -118,17 +118,16 @@ theme.weather = lain.widget.weather({
     notification_preset = { font = theme.font, fg = theme.fg_normal },
     weather_na_markup = markup.fontfg(theme.font, "#eca4c4", "N/A "),
     settings = function()
-        descr = weather_now["weather"][1]["description"]:lower()
         units = math.floor(weather_now["main"]["temp"])
-        widget:set_markup(markup.fontfg(theme.font, "#eca4c4", descr .. " @ " .. units .. "°C "))
+        widget:set_markup(markup.fontfg(theme.font, "#eca4c4", units .. "°C "))
     end
 })
 
 -- / fs
 local fsicon = wibox.widget.imagebox(theme.widget_fs)
 theme.fs = lain.widget.fs({
-    options = "--exclude-type=tmpfs",
-    notification_preset = { font = "xos4 Terminus 10", fg = theme.fg_normal },
+    options = "--exclude-type=tmpfs --exclude-type=devtmpfs",
+    notification_preset = { font = theme.font, fg = theme.fg_normal },
     settings  = function()
         widget:set_markup(markup.fontfg(theme.font, "#80d9d8", fs_now.used .. "% "))
     end
@@ -252,6 +251,20 @@ theme.mpd = lain.widget.mpd({
     end
 })
 
+-- Keyboard
+kbdcfg = {}
+kbdcfg.cmd = "setxkbmap"
+kbdcfg.layout = { { "pl", "" , "PL" }, { "ru", "" , "RU" } } 
+kbdcfg.current = 1  -- pl is our default layout
+kbdcfg.widget = wibox.widget.textbox()
+kbdcfg.widget:set_text(" " .. kbdcfg.layout[kbdcfg.current][3] .. " ")
+kbdcfg.switch = function ()
+  kbdcfg.current = kbdcfg.current % #(kbdcfg.layout) + 1
+  local t = kbdcfg.layout[kbdcfg.current]
+  kbdcfg.widget:set_text(" " .. t[3] .. " ")
+  os.execute( kbdcfg.cmd .. " " .. t[1] .. " " .. t[2] )
+end
+
 function theme.at_screen_connect(s)
     -- Quake application
     s.quake = lain.util.quake({ app = awful.util.terminal })
@@ -290,19 +303,17 @@ function theme.at_screen_connect(s)
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
-            --s.mylayoutbox,
+	    s.mylayoutbox,
             s.mytaglist,
             s.mypromptbox,
             mpdicon,
             theme.mpd.widget,
         },
-        --s.mytasklist, -- Middle widget
-        nil,
+        s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             wibox.widget.systray(),
-            --mailicon,
-            --mail.widget,
+	    wibox.container.background(kbdcfg.widget, theme.bg_focus),
             netdownicon,
             netdowninfo,
             netupicon,
@@ -315,30 +326,14 @@ function theme.at_screen_connect(s)
             cpu.widget,
             fsicon,
             theme.fs.widget,
-            weathericon,
-            theme.weather.widget,
             tempicon,
             temp.widget,
             baticon,
             bat.widget,
+            weathericon,
+            theme.weather.widget,
             clockicon,
             mytextclock,
-        },
-    }
-
-    -- Create the bottom wibox
-    s.mybottomwibox = awful.wibar({ position = "bottom", screen = s, border_width = 0, height = 20, bg = theme.bg_normal, fg = theme.fg_normal })
-
-    -- Add widgets to the bottom wibox
-    s.mybottomwibox:setup {
-        layout = wibox.layout.align.horizontal,
-        { -- Left widgets
-            layout = wibox.layout.fixed.horizontal,
-        },
-        s.mytasklist, -- Middle widget
-        { -- Right widgets
-            layout = wibox.layout.fixed.horizontal,
-            s.mylayoutbox,
         },
     }
 end

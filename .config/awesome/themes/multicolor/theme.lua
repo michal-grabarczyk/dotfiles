@@ -186,15 +186,18 @@ local bat = lain.widget.bat({
     end
 })
 
--- ALSA volume
+-- PulseAudio volume 
 local volicon = wibox.widget.imagebox(theme.widget_vol)
-theme.volume = lain.widget.alsa({
+volume = lain.widget.pulseaudio({
     settings = function()
-        if volume_now.status == "off" then
-            volume_now.level = volume_now.level .. "M"
+	devicetype = "sink"
+	--cmd = "pacmd list-sinks | sed -n -e '0,/*/d' -e '/base volume/d' -e '/volume:/p' -e '/muted:/p' -e '/device.string/p'"
+        vlevel = volume_now.left .. "% " 
+        if volume_now.muted == "yes" then
+            vlevel = vlevel .. " M"
         end
 
-        widget:set_markup(markup.fontfg(theme.font, "#7493d2", volume_now.level .. "% "))
+        widget:set_markup(lain.util.markup("#7493d2", vlevel))
     end
 })
 
@@ -303,7 +306,6 @@ function theme.at_screen_connect(s)
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
-	    s.mylayoutbox,
             s.mytaglist,
             s.mypromptbox,
             mpdicon,
@@ -312,14 +314,15 @@ function theme.at_screen_connect(s)
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            wibox.widget.systray(),
-	    wibox.container.background(kbdcfg.widget, theme.bg_focus),
             netdownicon,
             netdowninfo,
             netupicon,
             netupinfo.widget,
+	    s.mylayoutbox,
+            wibox.widget.systray(),
+	    wibox.container.background(kbdcfg.widget, theme.bg_focus),
             volicon,
-            theme.volume.widget,
+            volume.widget,
             memicon,
             memory.widget,
             cpuicon,

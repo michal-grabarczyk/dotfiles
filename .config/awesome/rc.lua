@@ -359,28 +359,19 @@ globalkeys = awful.util.table.join(
     -- ALSA volume control
     awful.key({ }, "XF86AudioRaiseVolume",
         function ()
-            os.execute(string.format("amixer -q set %s 1%%+", beautiful.volume.channel))
-            beautiful.volume.update()
+            os.execute(string.format("pamixer -i 1"))
         end),
     awful.key({ }, "XF86AudioLowerVolume",
         function ()
-            os.execute(string.format("amixer -q set %s 1%%-", beautiful.volume.channel))
-            beautiful.volume.update()
+            os.execute(string.format("pamixer -d 1"))
         end),
     awful.key({ }, "XF86AudioMute",
         function ()
-            os.execute(string.format("amixer -q set %s toggle", beautiful.volume.togglechannel or beautiful.volume.channel))
-            beautiful.volume.update()
+            os.execute(string.format("pamixer -t"))
         end),
     awful.key({ }, "XF86AudioMicMute",
         function ()
-            os.execute(string.format("amixer -q set %s 100%%", beautiful.volume.channel))
-            beautiful.volume.update()
-        end),
-    awful.key({ altkey, "Control" }, "0",
-        function ()
-            os.execute(string.format("amixer -q set %s 0%%", beautiful.volume.channel))
-            beautiful.volume.update()
+            os.execute(string.format("pamixer --source 1 -t"))
         end),
 
     -- MPD control

@@ -55,7 +55,7 @@ local function run_once(cmd_arr)
     end
 end
 
-run_once({ "urxvtd", "unclutter -root", "xscreensaver -no-splash", "nm-applet", "redshift-gtk" })
+run_once({ "unclutter -root", "nm-applet", "redshift-gtk" })
 -- }}}
 
 -- {{{ Variable definitions
@@ -66,7 +66,7 @@ local terminal     = "urxvtc" or "xterm"
 local editor       = os.getenv("EDITOR") or "vim" or "vi"
 local gui_editor   = "gvim"
 local browser      = "firefox"
-local guieditor    = "atom"    
+local guieditor    = "gvim"    
 
 awful.util.terminal = terminal
 awful.util.tagnames = { "term", "web", "misc", "note", "5", "6", "7" }
@@ -420,7 +420,7 @@ globalkeys = awful.util.table.join(
     -- Lock screen
     awful.key({ modkey }, "l",
         function ()
-            os.execute("xscreensaver-command -l")
+            os.execute("sxlock -u mafalda -l -p '@'")
         end),
 
     -- Default

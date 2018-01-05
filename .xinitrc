@@ -51,7 +51,6 @@ fi
 # setxkbmap -model thinkpad -layout pl
 
 urxvtd -q -o -f
-xscreensaver --no-splash
 exec awesome
 #twm &
 #xclock -geometry 50x50-1+1 &

@@ -16,7 +16,7 @@ local os    = { getenv = os.getenv, setlocale = os.setlocale, execute = os.execu
 local theme                                     = {}
 theme.confdir                                   = os.getenv("HOME") .. "/.config/awesome/themes/multicolor"
 --theme.wallpaper                                 = theme.confdir .. "/wall.png"
-theme.wallpaper                                 = os.getenv("HOME") .. "/pictures/Automne_dans_la_foret_des_trois_pignons_08.jpg"
+theme.wallpaper                                 = os.getenv("HOME") .. "/pictures/Automne_dans_la_foret_des_trois_pignons_09.jpg"
 --theme.font                                      = "xos4 Terminus 8"
 theme.font                                      = "inconsolata 11"
 theme.menu_bg_normal                            = "#000000"
@@ -258,7 +258,7 @@ theme.mpd = lain.widget.mpd({
 -- Keyboard
 kbdcfg = {}
 kbdcfg.cmd = "setxkbmap"
-kbdcfg.layout = { { "pl", "" , "PL" }, { "ru", "" , "RU" } } 
+kbdcfg.layout = { { "pl", "" , "PL" }, { "ru", "" , "RU" }, {"gr", "", "GR" } }
 kbdcfg.current = 1  -- pl is our default layout
 kbdcfg.widget = wibox.widget.textbox()
 kbdcfg.widget:set_text(" " .. kbdcfg.layout[kbdcfg.current][3] .. " ")

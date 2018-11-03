@@ -55,7 +55,7 @@ local function run_once(cmd_arr)
     end
 end
 
-run_once({ "unclutter -root", "nm-applet", "redshift-gtk" })
+run_once({ "unclutter -root", "nm-applet", "redshift-gtk", "xfce4-clipman" })
 -- }}}
 
 -- {{{ Variable definitions
@@ -69,7 +69,7 @@ local browser      = "firefox"
 local guieditor    = "gvim"    
 
 awful.util.terminal = terminal
-awful.util.tagnames = { "term", "web", "misc", "note", "5", "6", "7" }
+awful.util.tagnames = { "term", "web", "misc", "note", "εγώ", "6", "7" }
 awful.layout.layouts = {
     awful.layout.suit.floating,
     awful.layout.suit.tile,
@@ -353,8 +353,8 @@ globalkeys = awful.util.table.join(
     awful.key({ altkey, }, "h", function () if beautiful.fs then beautiful.fs.show(7) end end),
     awful.key({ altkey, }, "w", function () if beautiful.weather then beautiful.weather.show(7) end end),
 
-    -- Spectacle screenshots
-    awful.key({ modkey, "Shift"   }, "s",  function () awful.util.spawn("spectacle -rb") end),
+    -- Flameshot screenshots
+    awful.key({ modkey, "Shift"   }, "s",  function () awful.util.spawn("flameshot gui") end),
 
     -- ALSA volume control
     awful.key({ }, "XF86AudioRaiseVolume",

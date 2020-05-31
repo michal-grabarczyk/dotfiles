@@ -6,9 +6,8 @@ set tabstop=2
 set shiftwidth=2
 
 set expandtab 
-"let g:powerline_loaded = 1
+let g:powerline_loaded = 1
 
 set t_Co=16
-"let g:solarized_termcolors=256
 syntax enable
-colorscheme tango
+colorscheme solarized

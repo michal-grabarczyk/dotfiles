@@ -11,4 +11,4 @@ set expandtab
 set t_Co=16
 "let g:solarized_termcolors=256
 syntax enable
-colorscheme darktango
+colorscheme tango

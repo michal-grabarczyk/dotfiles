@@ -55,7 +55,7 @@ local function run_once(cmd_arr)
     end
 end
 
-run_once({ "unclutter -root", "nm-applet", "redshift-gtk", "xfce4-clipman" })
+run_once({ "unclutter -root", "nm-applet", "redshift-gtk" })
 -- }}}
 
 -- {{{ Variable definitions
@@ -569,7 +569,7 @@ awful.rules.rules = {
       properties = { titlebars_enabled = false } },
 
     -- Set Firefox to always map on the second tag on screen 1.
-    --{ rule = { class = "Firefox" },
+    -- { rule = { class = "Firefox" },
     --  properties = { screen = 1, tag = screen[1].tags[2] } },
 
     -- Set Chromium to always open on 5th tag on screen 1
@@ -682,17 +682,12 @@ client.connect_signal("focus",
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
--- Rewrite slack notifications without icons
+-- Rewrite slack and spotify notifications without icons
 naughty.config.notify_callback = function(args)
-  if args.appname == "Electron" then
+  if (args.appname == "Electron" or args.appname == "Spotify") then
     args.icon = nil
   end
 
   return args
 end
 
--- Intellij fix
-clientbuttons_jetbrains = gears.table.join(
-  awful.button({ modkey }, 1, awful.mouse.client.move),
-  awful.button({ modkey }, 3, awful.mouse.client.resize)
-)

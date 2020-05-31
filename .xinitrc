@@ -41,5 +41,6 @@ eval $(ssh-agent)
 urxvtd -q -o -f
 # selection copying
 # autocutsel -fork &
-xrandr --dpi 144 # for intellij
+# seams not needed anymore xrandr --dpi 140 # for java older apps (before also for intellij)
 exec /usr/bin/awesome >> ~/.cache/awesome/stdout 2>> ~/.cache/awesome/stderr
+#exec gnome-session

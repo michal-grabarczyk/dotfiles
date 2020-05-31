@@ -69,7 +69,7 @@ local browser      = "firefox"
 local guieditor    = "gvim"    
 
 awful.util.terminal = terminal
-awful.util.tagnames = { "term", "web", "misc", "note", "εγώ", "6", "7" }
+awful.util.tagnames = { "term", "web", "misc", "note", "wd", "εγώ", "7" }
 awful.layout.layouts = {
     awful.layout.suit.floating,
     awful.layout.suit.tile,
@@ -414,8 +414,9 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "v", function () awful.spawn("xsel -b | xsel") end),
 
     -- User programs
-    awful.key({ modkey }, "e", function () awful.spawn(gui_editor) end),
+    -- awful.key({ modkey }, "e", function () awful.spawn(gui_editor) end),
     awful.key({ modkey }, "q", function () awful.spawn(browser) end),
+    awful.key({ modkey }, "e", function () awful.spawn("rofi -show window") end),
 
     -- Lock screen
     awful.key({ modkey }, "l",
@@ -568,12 +569,32 @@ awful.rules.rules = {
       properties = { titlebars_enabled = false } },
 
     -- Set Firefox to always map on the second tag on screen 1.
-    -- { rule = { class = "Firefox" },
+    --{ rule = { class = "Firefox" },
     --  properties = { screen = 1, tag = screen[1].tags[2] } },
+
+    -- Set Chromium to always open on 5th tag on screen 1
+    --{ rule = { class = "Chromium" },
+    --  properties = { screen = 1, tag = screen[1].tags[5] } },
+
+    -- Set Slack to always open on 3th tag on screen 1
+    { rule = { class = "Slack" },
+      properties = { screen = 1, tag = screen[1].tags[3] } },
 
     { rule = { class = "Gimp", role = "gimp-image-window" },
           properties = { maximized = true } },
-}
+    -- Fix IntelliJ
+    {
+      rule = {
+        class = "jetbrains-.*",
+      }, properties = { focus = true, buttons = clientbuttons_jetbrains }
+    },
+    {
+      rule = {
+        class = "jetbrains-.*",
+        name = "win.*"
+      }, properties = { titlebars_enabled = false, focusable = false, focus = true, floating = true, placement = awful.placement.restore }
+    },
+  }
 -- }}}
 
 -- {{{ Signals
@@ -670,3 +691,8 @@ naughty.config.notify_callback = function(args)
   return args
 end
 
+-- Intellij fix
+clientbuttons_jetbrains = gears.table.join(
+  awful.button({ modkey }, 1, awful.mouse.client.move),
+  awful.button({ modkey }, 3, awful.mouse.client.resize)
+)

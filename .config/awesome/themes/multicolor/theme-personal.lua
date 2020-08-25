@@ -16,15 +16,16 @@ local my_table = awful.util.table or gears.table -- 4.{0,1} compatibility
 
 local theme                                     = {}
 theme.confdir                                   = os.getenv("HOME") .. "/.config/awesome/themes/multicolor"
-theme.wallpaper                                 = theme.confdir .. "/wall.png"
-theme.font                                      = "Terminus 8"
+theme.wallpaper                                 = nil --theme.confdir .. "/wall.png"
+--theme.font                                      = "Terminus 8" --todo: try "inconsolata 11"
+theme.font                                      = "SourceCodePro-ExtraLight 11" --todo: try "inconsolata 11"
 theme.menu_bg_normal                            = "#000000"
 theme.menu_bg_focus                             = "#000000"
 theme.bg_normal                                 = "#000000"
 theme.bg_focus                                  = "#000000"
 theme.bg_urgent                                 = "#000000"
 theme.fg_normal                                 = "#aaaaaa"
-theme.fg_focus                                  = "#ff8c00"
+theme.fg_focus                                  = "#ffffff"
 theme.fg_urgent                                 = "#af1d18"
 theme.fg_minimize                               = "#ffffff"
 theme.border_width                              = dpi(1)
@@ -32,7 +33,7 @@ theme.border_normal                             = "#1c2022"
 theme.border_focus                              = "#606060"
 theme.border_marked                             = "#3ca4d8"
 theme.menu_border_width                         = 0
-theme.menu_width                                = dpi(130)
+theme.menu_width                                = dpi(150)
 theme.menu_submenu_icon                         = theme.confdir .. "/icons/submenu.png"
 theme.menu_fg_normal                            = "#aaaaaa"
 theme.menu_fg_focus                             = "#ff8c00"
@@ -112,7 +113,7 @@ theme.cal = lain.widget.cal({
 -- Weather
 local weathericon = wibox.widget.imagebox(theme.widget_weather)
 theme.weather = lain.widget.weather({
-    city_id = 2643743, -- placeholder (London)
+    city_id = 756135, -- placeholder (Warsaw)
     notification_preset = { font = "Terminus 10", fg = theme.fg_normal },
     weather_na_markup = markup.fontfg(theme.font, "#eca4c4", "N/A "),
     settings = function()
@@ -167,7 +168,11 @@ local cpu = lain.widget.cpu({
 -- Coretemp
 local tempicon = wibox.widget.imagebox(theme.widget_temp)
 local temp = lain.widget.temp({
+    --tempfile = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp1_input",
+    tempfile = "/sys/devices/virtual/thermal/thermal_zone0/hwmon6/temp1_input",
+    timeout = 6,
     settings = function()
+        --widget:set_markup(markup.fontfg(theme.font, "#f1af5f", math.floor(coretemp_now) .. "°C "))
         widget:set_markup(markup.fontfg(theme.font, "#f1af5f", coretemp_now .. "°C "))
     end
 })
@@ -186,15 +191,17 @@ local bat = lain.widget.bat({
     end
 })
 
--- ALSA volume
+-- PulseAudio volume
 local volicon = wibox.widget.imagebox(theme.widget_vol)
-theme.volume = lain.widget.alsa({
+theme.volume = lain.widget.pulse({
     settings = function()
-        if volume_now.status == "off" then
-            volume_now.level = volume_now.level .. "M"
+	devicetype = "sink"
+        vlevel = volume_now.left .. "% " 
+        if volume_now.muted == "yes" then
+            vlevel = vlevel .. "M"
         end
 
-        widget:set_markup(markup.fontfg(theme.font, "#7493d2", volume_now.level .. "% "))
+        widget:set_markup(markup.fontfg(theme.font, "#7493d2", vlevel))
     end
 })
 
@@ -251,6 +258,32 @@ theme.mpd = lain.widget.mpd({
     end
 })
 
+-- Keyboard
+kbdcfg = {}
+kbdcfg.layout = { { "pl", "" , "PL" }, { "ru", "" , "RU" }, {"gr", "", "GR" } }
+kbdcfg.current = 1  -- pl is our default layout
+kbdcfg.widget = wibox.widget.textbox()
+kbdcfg.render = function (value)
+--  kbdcfg.widget:set_markup(markup.fontfg(theme.font, "#ffa4c4", value))
+  kbdcfg.widget:set_markup(markup.fontfg(theme.font, "#00d400", value))
+end
+kbdcfg.render(kbdcfg.layout[kbdcfg.current][3])
+kbdcfg.switch = function ()
+  kbdcfg.current = kbdcfg.current % #(kbdcfg.layout) + 1
+  local t = kbdcfg.layout[kbdcfg.current]
+  kbdcfg.render(t[3])
+  os.execute( "setxkbmap" .. " " .. t[1] .. " " .. t[2] )
+end
+
+-- Display brightness
+local brightness = {}
+brightness.widget = wibox.widget.textbox()
+brightness.update = function (new_value) 
+  brightness.widget:set_markup(markup.fontfg(theme.font, "#ffffff", new_value))
+end
+wibox.widget.brightness = brightness
+
+
 function theme.at_screen_connect(s)
     -- Quake application
     s.quake = lain.util.quake({ app = awful.util.terminal })
@@ -290,14 +323,14 @@ function theme.at_screen_connect(s)
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
-            --s.mylayoutbox,
+            s.mylayoutbox,
             s.mytaglist,
             s.mypromptbox,
             mpdicon,
             theme.mpd.widget,
         },
-        --s.mytasklist, -- Middle widget
-        nil,
+        s.mytasklist, -- Middle widget
+        --nil,
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             wibox.widget.systray(),
@@ -307,6 +340,7 @@ function theme.at_screen_connect(s)
             netdowninfo,
             netupicon,
             netupinfo.widget,
+            wibox.container.background(kbdcfg.widget, theme.bg_focus),
             volicon,
             theme.volume.widget,
             memicon,
@@ -315,32 +349,35 @@ function theme.at_screen_connect(s)
             cpu.widget,
             --fsicon,
             --theme.fs.widget,
-            weathericon,
-            theme.weather.widget,
+            --weathericon,
+            --theme.weather.widget,
             tempicon,
             temp.widget,
             baticon,
             bat.widget,
+            --weathericon,
+            --theme.weather.widget,
+            brightness.widget,
             clockicon,
             mytextclock,
         },
     }
 
     -- Create the bottom wibox
-    s.mybottomwibox = awful.wibar({ position = "bottom", screen = s, border_width = 0, height = dpi(20), bg = theme.bg_normal, fg = theme.fg_normal })
+    --s.mybottomwibox = awful.wibar({ position = "bottom", screen = s, border_width = 0, height = dpi(20), bg = theme.bg_normal, fg = theme.fg_normal })
 
     -- Add widgets to the bottom wibox
-    s.mybottomwibox:setup {
-        layout = wibox.layout.align.horizontal,
-        { -- Left widgets
-            layout = wibox.layout.fixed.horizontal,
-        },
-        s.mytasklist, -- Middle widget
-        { -- Right widgets
-            layout = wibox.layout.fixed.horizontal,
-            s.mylayoutbox,
-        },
-    }
+    --s.mybottomwibox:setup {
+    --    layout = wibox.layout.align.horizontal,
+    --    { -- Left widgets
+    --        layout = wibox.layout.fixed.horizontal,
+    --    },
+    --    s.mytasklist, -- Middle widget
+    --    { -- Right widgets
+    --       layout = wibox.layout.fixed.horizontal,
+    --        s.mylayoutbox,
+    --    },
+    --}
 end
 
 return theme

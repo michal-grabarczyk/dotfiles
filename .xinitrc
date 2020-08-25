@@ -38,6 +38,16 @@ eval $(ssh-agent)
 # layout
 # setxkbmap -model thinkpad -layout pl
 
+# start locking screen
+#xautolock -time 12 -locker "systemctl suspend" -detectsleep &
+xidlehook --not-when-fullscreen  --not-when-audio \
+  --timer 300 'slock' '' \
+  --timer 1200 'systemctl suspend' '' &
+# after 5 min lock, after next 10 min sleep
+
+# pcmanfm file manager daemon
+pcmanfm -d &
+
 urxvtd -q -o -f
 # selection copying
 # autocutsel -fork &

@@ -11,3 +11,7 @@ let g:powerline_loaded = 1
 set t_Co=16
 syntax enable
 colorscheme solarized
+
+"set number
+set showmatch
+set pastetoggle=<F2>

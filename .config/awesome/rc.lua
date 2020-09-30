@@ -57,7 +57,7 @@ local function run_once(cmd_arr)
     end
 end
 
-run_once({ "unclutter -root", "nm-applet" }) -- entries must be separated by commas
+run_once({ "unclutter -root", "nm-applet", "blueman-applet" }) -- entries must be separated by commas
 
 -- This function implements the XDG autostart specification
 --[[

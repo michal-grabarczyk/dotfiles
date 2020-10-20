@@ -1,0 +1,33 @@
+# This is Git's per-user configuration file.
+[user]
+# Please adapt and uncomment the following lines:
+name = Michal Grabarczyk
+email = michal.grabarczyk@pragmaticcoders.com
+
+[alias]
+    alias = !git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ / | sort
+    hist = log --graph --pretty=format:'%Cred%h%Creset %C(bold blue)<%an>%Creset%C(bold yellow)%d%Creset %Cgreen(%cr)%Creset%n%s'
+    histfull = log --graph --name-status --pretty=format:'%Cred%h%Creset %C(bold blue)<%an>%Creset%C(bold yellow)%d%Creset %Cgreen(%cr)%Creset%n%s%n'
+[branch]
+    autoSetupRebase = always
+[color]
+    ui = auto
+[core]
+    editor = vim
+[merge]
+    ff = only
+[pull]
+    ff = only
+[push]
+    default = current
+[rebase]
+    #autoSquash = true
+    missingCommitsCheck = warn
+[stash]
+    showPatch = true
+[tag]
+    sort = version:refname
+[tig]
+    ignore-case = true
+    tab-size = 4
+    vertical-split = false

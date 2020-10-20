@@ -36,7 +36,7 @@ fi
 eval $(ssh-agent)
 
 # layout
-# setxkbmap -model thinkpad -layout pl
+setxkbmap -layout pl
 
 # start locking screen
 #xautolock -time 12 -locker "systemctl suspend" -detectsleep &

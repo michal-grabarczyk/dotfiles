@@ -5,7 +5,7 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-export PATH="$PATH:/opt/idea/bin"
+export PATH="$PATH:/opt/idea/bin:$HOME/bin"
 
 export VISUAL="vim"
 
@@ -19,6 +19,8 @@ alias git-branchs='/usr/bin/git branch --sort=committerdate'
 alias dc='docker-compose'
 alias rclone-gdisk='rclone mount google-drive: ~/docs/gdrive --vfs-cache-mode writes'
 alias grabit-sync='rsync --dry-run -Prcvh ~/docs/grabit/ILVGoV_CWScY_2/ ~/.local/share/Cryptomator/mnt/ILVGoV_CWScY_2'
+
+WORK_FILE=~/.workaliases && test -f $WORK_FILE && source $WORK_FILE
 
 # MPD daemon start (if no other user instance exists)
 #[ ! -s ~/.mpd/pid ] && mpd

@@ -1,8 +1,8 @@
 # This is Git's per-user configuration file.
 [user]
 # Please adapt and uncomment the following lines:
-name = Michal Grabarczyk
-email = michal.grabarczyk@pragmaticcoders.com
+	name = Michal Grabarczyk
+	email = michal.grabarczyk@pragmaticcoders.com
 
 [alias]
     alias = !git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ / | sort

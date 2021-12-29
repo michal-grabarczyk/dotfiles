@@ -5,7 +5,7 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-export PATH="$PATH:/opt/idea/bin:$HOME/bin"
+export PATH="$PATH:/opt/idea/bin:$HOME/bin:/home/michal/.local/share/gem/ruby/2.7.0/bin"
 
 export VISUAL="vim"
 
@@ -18,7 +18,7 @@ alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias git-branchs='/usr/bin/git branch --sort=committerdate'
 alias dc='docker-compose'
 alias rclone-gdisk='rclone mount google-drive: ~/docs/gdrive --vfs-cache-mode writes'
-alias grabit-sync='rsync --dry-run -Prcvh ~/docs/grabit/ILVGoV_CWScY_2/ ~/.local/share/Cryptomator/mnt/ILVGoV_CWScY_2'
+alias grabit-sync='rsync --dry-run -Prcvh ~/docs/grabit/ILVGoV_CWScY_2/ ~/.local/share/Cryptomator/mnt/Vault'
 
 WORK_FILE=~/.workaliases && test -f $WORK_FILE && source $WORK_FILE
 

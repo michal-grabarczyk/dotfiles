@@ -83,3 +83,4 @@ function nonzero_return() {
 }
 
 export PS1="\[\e[31m\]\`nonzero_return\`\[\e[m\]\[\e[m\]\h\[\e[m\]:\[\e[38;5;178m\]\`parse_git_branch\`\[\e[m\]\[\e[38;5;67m\]\w\[\e[m\]\\$ "
+source /usr/share/nvm/init-nvm.sh

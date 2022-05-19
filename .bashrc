@@ -17,7 +17,7 @@ export PATH=$LOCAL_PATH:$PATH
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias git-branchs='/usr/bin/git branch --sort=committerdate'
 alias dc='docker-compose'
-alias rclone-gdisk='rclone mount google-drive: ~/docs/gdrive --vfs-cache-mode writes'
+alias rclone-gdisk='rclone mount gd: ~/docs/gdrive --vfs-cache-mode writes'
 alias grabit-sync='rsync --dry-run -Prcvh ~/docs/grabit/ILVGoV_CWScY_2/ ~/.local/share/Cryptomator/mnt/Vault'
 
 WORK_FILE=~/.workaliases && test -f $WORK_FILE && source $WORK_FILE

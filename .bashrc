@@ -18,7 +18,8 @@ alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias git-branchs='/usr/bin/git branch --sort=committerdate'
 alias dc='docker-compose'
 alias rclone-gdisk='rclone mount gd: ~/docs/gdrive --vfs-cache-mode writes'
-alias grabit-sync='rsync --dry-run -Prcvh ~/docs/grabit/ILVGoV_CWScY_2/ ~/.local/share/Cryptomator/mnt/Vault'
+alias grabit-sync='rsync --dry-run -Prcvh ~/docs/grabit/ILVGoV_CWScY_2/ ~/.local/share/Cryptomator/mnt/Vault/grabit'
+alias es-sync='rsync --dry-run -Prcvh ~/docs/es-podroz-covid/ ~/.local/share/Cryptomator/mnt/Vault/ES'
 
 WORK_FILE=~/.workaliases && test -f $WORK_FILE && source $WORK_FILE
 
@@ -83,4 +84,16 @@ function nonzero_return() {
 }
 
 export PS1="\[\e[31m\]\`nonzero_return\`\[\e[m\]\[\e[m\]\h\[\e[m\]:\[\e[38;5;178m\]\`parse_git_branch\`\[\e[m\]\[\e[38;5;67m\]\w\[\e[m\]\\$ "
+#source /usr/share/nvm/init-nvm.sh
+
+# fly ctl
+export FLYCTL_INSTALL="/home/michal/.fly"
+export PATH="$FLYCTL_INSTALL/bin:$PATH"
+
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+# node version manager
 source /usr/share/nvm/init-nvm.sh

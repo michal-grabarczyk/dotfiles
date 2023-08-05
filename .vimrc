@@ -15,3 +15,8 @@ colorscheme solarized
 "set number
 set showmatch
 set pastetoggle=<F2>
+
+
+# copy to both clipboards
+set clipboard+=unnamedplus
+set clipboard+=unnamed

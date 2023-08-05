@@ -13,6 +13,8 @@ alias ls='ls --color=auto'
 #PS1='[\u@\h \W]\$ '
 LOCAL_PATH=~/.local/bin
 export PATH=$LOCAL_PATH:$PATH
+export ANDROID_SDK_ROOT=$HOME/Android/Sdk
+export CAPACITOR_ANDROID_STUDIO_PATH=$HOME/bin/studio
 
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias git-branchs='/usr/bin/git branch --sort=committerdate'

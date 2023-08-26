@@ -86,12 +86,6 @@ function nonzero_return() {
 }
 
 export PS1="\[\e[31m\]\`nonzero_return\`\[\e[m\]\[\e[m\]\h\[\e[m\]:\[\e[38;5;178m\]\`parse_git_branch\`\[\e[m\]\[\e[38;5;67m\]\w\[\e[m\]\\$ "
-#source /usr/share/nvm/init-nvm.sh
-
-# fly ctl
-export FLYCTL_INSTALL="/home/michal/.fly"
-export PATH="$FLYCTL_INSTALL/bin:$PATH"
-
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"

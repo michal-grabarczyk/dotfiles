@@ -16,9 +16,8 @@ local my_table = awful.util.table or gears.table -- 4.{0,1} compatibility
 
 local theme                                     = {}
 theme.confdir                                   = os.getenv("HOME") .. "/.config/awesome/themes/multicolor"
-theme.wallpaper                                 = nil --theme.confdir .. "/wall.png"
---theme.font                                      = "Terminus 8" --todo: try "inconsolata 11"
-theme.font                                      = "SourceCodePro-ExtraLight 11" --todo: try "inconsolata 11"
+theme.wallpaper                                 = nil
+theme.font                                      = "JetBrainsMono-Light:size=11"
 theme.menu_bg_normal                            = "#000000"
 theme.menu_bg_focus                             = "#000000"
 theme.bg_normal                                 = "#000000"
@@ -111,6 +110,7 @@ theme.cal = lain.widget.cal({
 })
 
 -- Weather
+--[[ to be set before use
 local weathericon = wibox.widget.imagebox(theme.widget_weather)
 theme.weather = lain.widget.weather({
     city_id = 756135, -- placeholder (Warsaw)
@@ -122,6 +122,7 @@ theme.weather = lain.widget.weather({
         widget:set_markup(markup.fontfg(theme.font, "#eca4c4", descr .. " @ " .. units .. "°C "))
     end
 })
+--]]
 
 -- / fs
 --[[ commented because it needs Gio/Glib >= 2.54
@@ -211,11 +212,13 @@ local netdowninfo = wibox.widget.textbox()
 local netupicon = wibox.widget.imagebox(theme.widget_netup)
 local netupinfo = lain.widget.net({
     settings = function()
+        --[[ uncomment if using the weather widget
         if iface ~= "network off" and
            string.match(theme.weather.widget.text, "N/A")
         then
             theme.weather.update()
         end
+        --]]
 
         widget:set_markup(markup.fontfg(theme.font, "#e54c62", net_now.sent .. " "))
         netdowninfo:set_markup(markup.fontfg(theme.font, "#87af5f", net_now.received .. " "))

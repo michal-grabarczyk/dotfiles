@@ -48,18 +48,11 @@ xidlehook --not-when-fullscreen  --not-when-audio \
 # pcmanfm file manager daemon
 pcmanfm -d &
 
-urxvtd -q -o -f
+# disabled rxvt deamon
+#urxvtd -q -o -f
 # selection copying
 # autocutsel -fork &
 # seams not needed anymore xrandr --dpi 140 # for java older apps (before also for intellij)
 exec /usr/bin/awesome >> ~/.cache/awesome/stdout 2>> ~/.cache/awesome/stderr
 #exec gnome-session
-#twm &
-#xclock -geometry 50x50-1+1 &
-#xterm -geometry 80x50+494+51 &
-#xterm -geometry 80x20+494-0 &
-#exec xterm -geometry 80x66+0+0 -name login
-
-#exec i3
-#exec startxfce4
 #exec dbus-launch --exit-with-session awesome

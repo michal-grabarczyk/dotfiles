@@ -184,6 +184,7 @@ awful.util.tasklist_buttons = mytable.join(
 )
 
 beautiful.init(string.format("%s/.config/awesome/themes/%s/theme-personal.lua", os.getenv("HOME"), chosen_theme))
+beautiful.font="JetBrainsMono-Light"
 -- }}}
 
 -- {{{ Menu
